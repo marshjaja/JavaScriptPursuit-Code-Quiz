@@ -2,6 +2,7 @@ import questions from "./questions.js";
 
 let currentQuestionIndex = 0;
 let time = questions.length * 15;
+let timerId;
 
 //note constants
 const timerEl = document.getElementById("time");
@@ -39,27 +40,35 @@ function getQuestion() {
 		choicesEl.appendChild(choiceButton);
 	}
 }
-
 function questionClick() {
-	if (
-		parseInt(this.getAttribute("data-number")) !==
-		questions[currentQuestionIndex].answer
-	) {
-		time -= 10;
+	const selectedAnswer = parseInt(this.getAttribute("data-number"));
+	const correctAnswer = questions[currentQuestionIndex].answer;
+
+	feedbackEl.classList.remove("correct", "incorrect");
+
+	if (selectedAnswer !== correctAnswer) {
+		time -= 15;
 		wrongSound.play();
+		feedbackEl.textContent = "Wrong!";
+		feedbackEl.classList.add("incorrect");
 		if (time < 0) {
 			time = 0;
 		}
 		timerEl.textContent = time;
-		feedbackEl.textContent = "Wrong!";
 	} else {
 		correctSound.play();
 		feedbackEl.textContent = "Correct!";
+		feedbackEl.classList.add("correct");
 	}
 
 	feedbackEl.classList.remove("hide");
-	setTimeout(() => feedbackEl.classList.add("hide"), 1000);
+	setTimeout(() => {
+		feedbackEl.classList.add("hide");
+		moveToNextQuestion();
+	}, 1000);
+}
 
+function moveToNextQuestion() {
 	currentQuestionIndex++;
 	if (currentQuestionIndex === questions.length) {
 		quizEnd();
