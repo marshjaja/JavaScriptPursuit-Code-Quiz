@@ -19,7 +19,7 @@
     <a href="https://github.com/marshjaja/JavaScriptPursuit-Code-Quiz"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://www.loom.com/share/421e988e5cdb418f9cf580b62d9c949c">View Demo</a>
+    <a href="https://marshjaja.github.io/JavaScriptPursuit-Code-Quiz/">View Demo</a>
     ·
     <a href=https://github.com/marshjaja/JavaScriptPursuit-Code-Quiz/issues">Report Bug</a>
     ·
