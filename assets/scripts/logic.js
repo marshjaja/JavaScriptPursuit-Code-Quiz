@@ -13,8 +13,9 @@ const startBtn = document.getElementById("start");
 const initialsEl = document.getElementById("initials");
 const feedbackEl = document.getElementById("feedback");
 
-const correctSound = new Audio("./assets/sfx/correct.wav");
-const wrongSound = new Audio("./assets/sfx/incorrect.wav");
+const correctSound = new Audio("./assets/sfx/happyCrowdTrim.mp3");
+const wrongSound = new Audio("./assets/sfx/wrongSound.mp3");
+const gameOverSound = new Audio("./assets/sfx/gameOver2.mp3");
 
 function startQuiz() {
 	document.getElementById("start-screen").classList.add("hide");
@@ -48,12 +49,18 @@ function questionClick() {
 
 	if (selectedAnswer !== correctAnswer) {
 		time -= 15;
-		wrongSound.play();
+		if (time <= 0) {
+			time = 0;
+			timerEl.textContent = time;
+			wrongSound.play();
+			quizEnd();
+			return;
+		} else {
+			wrongSound.play();
+		}
+
 		feedbackEl.textContent = "Wrong!";
 		feedbackEl.classList.add("incorrect");
-		if (time < 0) {
-			time = 0;
-		}
 		timerEl.textContent = time;
 	} else {
 		correctSound.play();
@@ -79,6 +86,7 @@ function moveToNextQuestion() {
 
 function quizEnd() {
 	clearInterval(timerId);
+	gameOverSound.play();
 	const endScreenEl = document.getElementById("end-screen");
 	endScreenEl.classList.remove("hide");
 	const finalScoreEl = document.getElementById("final-score");
@@ -89,7 +97,10 @@ function quizEnd() {
 function clockTick() {
 	time--;
 	timerEl.textContent = time;
+
 	if (time <= 0) {
+		time = 0;
+		timerEl.textContent = time;
 		quizEnd();
 	}
 }
